@@ -1,6 +1,15 @@
 # Optimization Tips
 
+* Buildinizi Mono'dan **IL2CPP** ye çekin, Player Settings / Other Settings'den bu ayarı düzenleyebilirsiniz. Bu işlem build alırken kodumuzu C++'a çevirmektedir ve buda bedava performans demektir.
+
+
 * Build almadan önce tüm **Debug.Log()** 'ları temizleyiniz. **Debug.Log()** bellekte yer tutar ve GC'nin çalışmasına sebebiyet verir.
+
+
+* Vector3.magnitude & Vector3.Distance() metotları karekök işlemi kullanarak sonuç verdiğinden dolayı aşırı yorucudur. Kullanıcıya dönen değeri göstermeniz gerekmiyorsa eğer yapınızı sqrMagnitude üzerinden çalışacak şekilde yeniden düzenleyin.
+
+
+* Collectionlar üzerinde işlem yaparken foreach kullanmaktan kaçının. Foreach arka planda yeni bir IEnumerator oluşturduğundan dolayı yine Garbage Collector'umuza yeni işler düşer. Bunun yerine for döngüsü kullanın.
 
 
 * **Instantiate** & **new** Keyword'ü ile yarattığımız nesneler hafızada yer kaplar, dolayısıyla RunTime'da sürekli Array/Obje vs oluşturaktan kaçının. Bunun yerine başlangıçta oluşturup onu kullanın veya **Object Pooling** kullanın. (new Vector3 heap'ta yer kaplar, istediğiniz kadar kullanabilirsiniz.)
@@ -20,8 +29,4 @@
 * **GetComponents** veya **GetComponentsInChildren** fonksiyonları, belli bir türdeki tüm component’leri bulup bir array olarak döndürürler. Yeni arrayler, GC için  daha fazla iş demektir. Bunun yerine, bu fonksiyonların List parametre alan versiyonlarını kullanın. Bu şekilde, bulunan sonuçlar halihazırda var olan List’te depolanır, yeni bir array oluşmamış olur.
 <img width="449" alt="Ekran Resmi 2021-04-06 14 19 30" src="https://user-images.githubusercontent.com/75368035/113703159-1e002280-96e3-11eb-90a3-4e95c8b03333.png">
 
-* Vector3.magnitude & Vector3.Distance() metotları karekök işlemi kullanarak sonuç verdiğinden dolayı aşırı yorucudur. Kullanıcıya dönen değeri göstermeniz gerekmiyorsa eğer yapınızı sqrMagnitude üzerinden çalışacak şekilde yeniden düzenleyin.
 
-* Collectionlar üzerinde işlem yaparken foreach kullanmaktan kaçının. Foreach arka planda yeni bir IENumerator oluşturduğundan dolayı yine Garbage Collector'umuza yeni işler düşer. Bunun yerine for döngüsü kullanın.
-
-* Buildinizi Mono'dan **IL2CPP** ye çekin, Player Settings / Other Settings'den bu ayarı düzenleyebilirsiniz. Bu işlem build alırken kodumuzu C++'a çevirmektedir ve buda bedava performans demektir.
