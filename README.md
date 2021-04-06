@@ -1,6 +1,6 @@
 # Optimization Tips
 
-* Buildinizi Mono'dan **IL2CPP** ye çekin, Player Settings / Other Settings'den bu ayarı düzenleyebilirsiniz. Bu işlem build alırken kodumuzu C++'a çevirmektedir ve buda bedava performans demektir.
+* Buildinizi Mono'dan **IL2CPP** ye çekin, Player Settings / Other Settings'den bu ayarı düzenleyebilirsiniz. Bu işlem build alırken kodumuzu C++'a çevirmektedir, bu da bedava performans demektir.
 
 
 * Build almadan önce tüm **Debug.Log()** 'ları temizleyiniz. **Debug.Log()** bellekte yer tutar ve GC'nin çalışmasına sebebiyet verir.
