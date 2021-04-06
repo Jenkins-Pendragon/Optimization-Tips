@@ -80,3 +80,65 @@ public void Start()
 ```C#
  if(obje.CompareTag("Player")) 
 ```
+
+* LINQ kullanmayın. Gereken neyse kendiniz el ile yazın.
+
+
+* MeshRenderer veya SkinnedMeshRenderer 'a sahip objelerin materyallerine erişip düzenlemek istediğinizde, .sharedMaterial kullanın, bu materyale doğrudan erişim sağlar. Eğer aynı materyale sahip birden çok objeniz var ve siz sadece içlerinden bir tanesini düzenlemek istiyorsanız .material kullanın, bu yöntem üzerindeki materialın kopyasını çıkartarak çalışır.
+
+
+* Bir listeyi for ile dönüyorsanız ve listenin uzunluğu for döngüsü boyunca değişmeyecekse, list.Count'u bir değişkene alıp kullanın her stepte çağırılmasını engelleyin veya for döngüsünü counttan 0'a doğru ilerleyecek şekilde düzenleyin.
+
+```C#
+public List<GameObject> gameObjects = new List<GameObject>();
+public void Start()
+{
+    for (int i = 0; i < gameObjects.Count; i++)
+    {
+        gameObjects[i].SetActive(i % 2 == 0);
+    }
+}
+```
+Optimize Edilmiş Kullanımı
+```C#
+public List<GameObject> gameObjects = new List<GameObject>();
+public void Start()
+{
+    int count = gameObjects.Count;
+    for (int i = 0; i < count; i++)
+    {
+        gameObjects[i].SetActive(i % 2 == 0);
+    }
+    // VEYA
+    for (int i = gameObjects.Count - 1; i >= 0; i--)
+    {
+        gameObjects[i].SetActive(i % 2 == 0);
+    }
+}
+```
+
+* System.GC.Collect(); ile GC'yi el ile çalıştırabilirsiniz. Oyun esnasında çalıştırılmasından kaçınmak için, Loading ekranı gibi fırsatlarda kullanabilirsiniz. 
+
+
+* Rigidbody / Collider'a sahip objelerinizden hareket etmeyeceğine emin olduklarınızın veya doğal kuvvetlerden etkilenmemesini istediklerinizin isKinematic değerini true yapın. Aksi takdirde fizik motoru hesaplamalar yapmaya devam edecektir.
+
+
+* Edit -> Project Settings -> Physics‘teki **Auto Sync Transforms**‘u kapatın. Bu değer açık olduğunda, bir objenin Transform’u ne zaman değişirse fizik motoru bu değişikliği anında fizik dünyasına uygularken, bu değeri kapatırsanız tüm Transform değişiklikleri FixedUpdate’ten hemen önce toplu bir şekilde fizik dünyasına uygulanır. Oyununuzda çok fazla Rigidbody varsa ve Update’te sürekli Transform değerlerini değiştiriyorsanız, bu optimizasyonun performansa büyük etkisi olabilir.
+
+
+* Texture ve IMG leri mümkün mertebe 4 ün katı olucak şekilde bulun, tasarlayın ve kullanın. Unity build alırken bu çözünürlüğü sıkıştırarak APK boyutunuzu düşürür. Örneğin 1024x1024 (3 mb) bir görseli 256x256 (100 kb) gibi bir duruma sıkıştırıp kullanabilirsiniz fakat 1024x1023 olması durumunda (4'ün katı olmadığı için) Compress işlemi uygulanamaz.
+
+
+* Yeni oluşturulan materyallere otomatik olarak atanan Standard Shader‘ı minimum düzeyde kullanın (mobil oyunlarda hiç kullanmamaya çalışın). Bu shader, PBR adı verilen gerçekçi ışıklandırmaya yönelik hesaplamalar üzerine kurulduğu için, özellikle mobil platformlarda çok fazla performans harcar. Materyaliniz için bir shader seçerken öncelikle Mobile altında listelenmiş shader’lara bakın, burada ihtiyacınızı karşılayan bir shader yoksa o zaman Legacy Shaders‘a yönelin.
+
+
+* (Özellikle mobil) Eğer sahnenizde aynı materyali taşıyan ve low-poly olan çok fazla obje varsa, Player Settings‘teki Dynamic Batching‘i açarak “Batches“ın azalmasına yardımcı olabilirsiniz. Bu ayar, Unity’nin kameranın görüş alanındaki aynı materyale sahip objeleri GPU’ya yollamadan önce birleştirerek tek bir obje yapmasını sağlar, böylece birden çok obje tek bir seferde çizilir. Bir frame’de kaç objenin birleştirildiğini, Stats ekranında “Saved by batching” olarak görebilirsiniz.
+
+
+* Fog (sis) kullanmak da performans için iyi değildir. Eğer fog, oyununuzda çok ciddi bir yere sahip değilse kullanmaktan kaçının.
+
+
+* Eğer gölge kullanıyorsanız, Edit-Project Settings-Quality‘den Shadow Distance‘ı olabildiğince düşürün. Bu değer, gölgelerin çizileceği en uzak mesafeyi belirler. Daha uzaktaki objelerin gölgeleri çizilmez. Quality ayarlarındaki Shadow Cascades‘i de, görsele çok büyük etkisi olmadığı sürece No Cascades yapın.
+
+
+*
