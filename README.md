@@ -141,4 +141,4 @@ public void Start()
 * Eğer gölge kullanıyorsanız, Edit-Project Settings-Quality‘den Shadow Distance‘ı olabildiğince düşürün. Bu değer, gölgelerin çizileceği en uzak mesafeyi belirler. Daha uzaktaki objelerin gölgeleri çizilmez. Quality ayarlarındaki Shadow Cascades‘i de, görsele çok büyük etkisi olmadığı sürece No Cascades yapın.
 
 
-*
+* Oyun boyunca sürekli kullandığınız asset’leri, Player Settings‘teki Preloaded Assets listesine ekleyerek, asset’in oyunun başında hafızaya alınıp oyun bitene kadar hafızadan çıkmamasını sağlayabilirsiniz. Bu sayede sahneler arası geçişlerde bile asset hafızada kalır ve oyun esnasında asset’i yüklerken herhangi bir gecikme yaşanmaz.
