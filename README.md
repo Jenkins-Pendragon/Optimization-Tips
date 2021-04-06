@@ -29,6 +29,8 @@
         
     }
 ```
+
+
 * GetComponent<>() işlemini aynı scope içinde birden fazla kullanıyorsanız, bunun yerine bir kere değişkene atayın ve değişken üzerinden kullanın. Update içinde kesinlikle kullanmayın, kullanmaktan başka çareniz yoksa yine değişkene referans alarak kullanın, bir boolean kullanarak referans aldığımız satıra bir kez girmesini sağlayın. 
 ``` C#
 public class OptimizationTips : MonoBehaviour
@@ -54,6 +56,8 @@ public class OptimizationTips : MonoBehaviour
     }
 }
 ```
+
+
 * GameObject.Find / FindObjectOfType metotları'da yavaş işlemlerdir. FindWithTag daha tercih edilebilir ve optimizedir. Update için kullanmaktan kaçının. Start veya Awake'de kullanıyorsanız ve oyununuz ilk saniyelerde kasıyor ise, atama işlemlerini OnValidate()'e taşıyabilirsiniz.
 
 
@@ -62,16 +66,16 @@ public class OptimizationTips : MonoBehaviour
 public List<Collider> colliders = new List<Collider>();
 public void Start()
 {
-GetComponentsInChildren(colliders);
-for (int i = 0; i < colliders.Count; i++)
-  {
-    Collider x = colliders[i];
-    x.enabled = false;
-  }
+    GetComponentsInChildren(colliders);
+    for (int i = 0; i < colliders.Count; i++)
+    {
+        Collider x = colliders[i];
+        x.enabled = false;
+    }
 }
  ```
-<img width="449" alt="Ekran Resmi 2021-04-06 14 19 30" src="https://user-images.githubusercontent.com/75368035/113703159-1e002280-96e3-11eb-90a3-4e95c8b03333.png">
-
+ 
+ 
 * .tag yerine CompareTag(); kullanın.
 ```C#
  if(obje.CompareTag("Player")) 
